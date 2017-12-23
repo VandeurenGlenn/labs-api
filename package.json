@@ -1,0 +1,23 @@
+{
+  "name": "labs-api",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vandeurenglenn/labs-api",
+  "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node dist/api.js"
+  },
+  "dependencies": {
+    "crypto-io-utils": "^0.1.0-alpha.3",
+    "express": "^4.16.2"
+  },
+  "backed": {
+    "bundles": [{
+      "src": "src/index.js",
+      "dest": "dist/api.js",
+      "format": "cjs"
+    }]
+  }
+}
