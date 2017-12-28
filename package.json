@@ -11,13 +11,17 @@
   },
   "dependencies": {
     "crypto-io-utils": "^0.1.0-alpha.3",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "keypair": "^1.0.1",
+    "node-rsa": "^0.4.2"
   },
   "backed": {
-    "bundles": [{
-      "src": "src/index.js",
-      "dest": "dist/api.js",
-      "format": "cjs"
-    }]
+    "bundles": [
+      {
+        "src": "src/index.js",
+        "dest": "dist/api.js",
+        "format": "cjs"
+      }
+    ]
   }
 }
