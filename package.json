@@ -1,6 +1,6 @@
 {
   "name": "labs-api",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha",
   "main": "index.js",
   "repository": "https://github.com/vandeurenglenn/labs-api",
   "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
