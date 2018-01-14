@@ -1,6 +1,10 @@
-import _io from 'socket.io';
+import { Server } from 'http';
+import express from 'express';
 
-export default server => {
+import _io from 'socket.io';
+export default () => {
+  const app = express();
+  const server = Server(app);
   const io = _io(server);
 
   io.on('connection', socket => {
@@ -20,5 +24,6 @@ export default server => {
   //   console.log();
   // })
 
-  return io;
+  server.listen(3000, () => console.log('listening on port 3000'));
+  return {express: app, io}
 }

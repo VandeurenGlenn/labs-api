@@ -3,41 +3,29 @@ import { userInfo } from 'os';
 import { join } from 'path';
 import RSA from 'node-rsa';
 import inquirer from 'inquirer';
-const userdir = userInfo().homedir;
-const store = {};
-const pemPath = join(userdir, '.revolutionlabs', 'pem');
-
-const setKeys = obj => {
-  return JSON.stringify({
-    public: new Buffer(obj.public).toString('base64'),
-    private: new Buffer(obj.private).toString('base64')
-  })
-}
+import config from './../node_modules/labs-config/src/index.js';
 
 export default async () => {
   let data, cipher, pub, priv;
+  const { keys, set } = await config;
   const answers = await inquirer.prompt([{
     type: 'password',
     name: 'password',
     message: 'Enter passphrase to encrypt/decrypt server keys'
   }]);
-  try {
-    data = await read(pemPath, 'string')
+
+  if (keys && keys.public && keys.private) {
     answers.password = null;
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      const key = new RSA({b: 2048});
-      const pair = key.generateKeyPair();
-      data = {
-        public: pair.exportKey('pkcs1-public-der'),
-        private: pair.exportKey('pkcs1-der')
-      };
-      await write(`${pemPath}`, JSON.stringify(data));
-      answers.password = null;
-    } else {
-      throw error;
-    }
+    return keys;
+  } else {
+    const key = new RSA({b: 2048});
+    const pair = key.generateKeyPair();
+    const newKeys = {
+      public: pair.exportKey('pkcs1-public-der'),
+      private: pair.exportKey('pkcs1-der')
+    };
+    await set('keys', newKeys);
+    answers.password = null;
+    return newKeys;
   }
-  global.pempublic = data.public;
-  global.pemprivate = data.private
 }
